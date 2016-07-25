@@ -31,6 +31,7 @@ namespace MarblePassword.Win
             //
             // TODO: Add constructor code after the InitializeComponent() call.
             //
+            _data = new PasswordDatabase();
         }
 
         private void toolStripEntryAdd_Click(object sender, EventArgs e)
@@ -40,12 +41,20 @@ namespace MarblePassword.Win
             form.ShowDialog();
         }
 
+        public void LoadData()
+        {
+            dataGridView.DataSource = _data.Items;
+
+        }
+
+
         private void toolStripButtonNewDatabase_Click(object sender, EventArgs e)
         {
             var fileDialog = new SaveFileDialog();
 
             fileDialog.Filter = "password database (*.mpd)|*.mpd|All Files (*.*)|*.*";
-            fileDialog.FilterIndex = 2;
+            fileDialog.DefaultExt = "*.mpd";
+            fileDialog.FilterIndex = 1;
             fileDialog.RestoreDirectory = true;
 
             if (fileDialog.ShowDialog() == DialogResult.OK)
@@ -54,6 +63,24 @@ namespace MarblePassword.Win
             }
 
             var dbSetupForm = new PasswordForm();
+            if (dbSetupForm.ShowDialog() == DialogResult.OK)
+            {
+                _data.Password = dbSetupForm.Password;
+                _data.Items.Add(new Entry
+                {
+                    Title = "Sample",
+                    Notes = "Notes go here",
+                    Created = DateTime.Now,
+                    Modified = DateTime.Now
+                });
+
+                var path = System.IO.Path.GetDirectoryName(_filename);
+                var fileName = System.IO.Path.GetFileName(_filename);
+                using (var db = NanoApi.JsonFile<PasswordDatabase>.GetInstance(path, fileName))
+                {
+                    db.Insert(_data);
+                }
+            }
 
 
         }

@@ -5,6 +5,11 @@ namespace MarblePassword.Win
 {
     class PasswordDatabase
     {
+        public PasswordDatabase()
+        {
+            Items = new List<Entry>();
+        }
+
         public string Password { get; set; }
 
         public string Filename { get; set; }
