@@ -3,11 +3,12 @@ using System.Collections.Generic;
 
 namespace MarblePassword.Win
 {
-    class PasswordDatabase
+    public class PasswordDatabase
     {
         public PasswordDatabase()
         {
             Items = new List<Entry>();
+            Created = DateTime.Now;
         }
 
         public string Password { get; set; }

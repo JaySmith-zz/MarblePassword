@@ -6,6 +6,7 @@
  * 
  * To change this template use Tools | Options | Coding | Edit Standard Headers.
  */
+using MarblePassword.Win.Services;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -18,20 +19,29 @@ namespace MarblePassword.Win
     /// </summary>
     public partial class MainForm : Form
     {
+        private PasswordDatabaseRepository _repo;
         private PasswordDatabase _data;
-        private string _filename;
 
         public MainForm()
         {
-            //
-            // The InitializeComponent() call is required for Windows Forms designer support.
-            //
             InitializeComponent();
 
-            //
-            // TODO: Add constructor code after the InitializeComponent() call.
-            //
-            _data = new PasswordDatabase();
+            if (!string.IsNullOrEmpty( Globals.CurrentPasswordDb))
+            {
+                _repo = new PasswordDatabaseRepository(Globals.CurrentPasswordDb);
+                _data = _repo.Read();
+
+                var loginDialog = new OpenDatabaseForm(_data);
+
+                if (loginDialog.ShowDialog() == DialogResult.OK)
+                {
+                    LoadData();
+                }
+            }
+            //else
+            //{
+            //    throw new NotImplementedException();
+            //}
         }
 
         private void toolStripEntryAdd_Click(object sender, EventArgs e)
@@ -44,7 +54,6 @@ namespace MarblePassword.Win
         public void LoadData()
         {
             dataGridView.DataSource = _data.Items;
-
         }
 
 
@@ -59,30 +68,28 @@ namespace MarblePassword.Win
 
             if (fileDialog.ShowDialog() == DialogResult.OK)
             {
-                _filename = fileDialog.FileName;
-            }
+                var _filename = fileDialog.FileName;
+                _repo = new PasswordDatabaseRepository(_filename);
+                _data = new PasswordDatabase();
 
-            var dbSetupForm = new PasswordForm();
-            if (dbSetupForm.ShowDialog() == DialogResult.OK)
-            {
-                _data.Password = dbSetupForm.Password;
-                _data.Items.Add(new Entry
+                var dbSetupForm = new PasswordForm();
+                if (dbSetupForm.ShowDialog() == DialogResult.OK)
                 {
-                    Title = "Sample",
-                    Notes = "Notes go here",
-                    Created = DateTime.Now,
-                    Modified = DateTime.Now
-                });
+                    _data.Password = dbSetupForm.Password;
+                    _data.Items.Add(new Entry                
+                    {
+                        Title = "Sample",
+                        Notes = "Notes go here",
+                        Created = DateTime.Now,
+                        Modified = DateTime.Now
+                    });
 
-                var path = System.IO.Path.GetDirectoryName(_filename);
-                var fileName = System.IO.Path.GetFileName(_filename);
-                using (var db = NanoApi.JsonFile<PasswordDatabase>.GetInstance(path, fileName))
-                {
-                    db.Insert(_data);
+                    _repo.Save(_data);
+                    Globals.CurrentPasswordDb = _filename;
                 }
             }
 
-
+            LoadData();
         }
     }
 }
