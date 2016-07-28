@@ -44,15 +44,10 @@ namespace MarblePassword.Win
             //}
         }
 
-        private void toolStripEntryAdd_Click(object sender, EventArgs e)
-        {
-            var form = new NewEntryForm();
-
-            form.ShowDialog();
-        }
-
         public void LoadData()
         {
+            toolStripButtonSave.Enabled = true;
+            dataGridView.Enabled = true;
             dataGridView.DataSource = _data.Items;
         }
 
@@ -86,10 +81,56 @@ namespace MarblePassword.Win
 
                     _repo.Save(_data);
                     Globals.CurrentPasswordDb = _filename;
+
                 }
             }
 
             LoadData();
+        }
+
+        private void toolStripButtonSave_Click(object sender, EventArgs e)
+        {
+            _data.Items.Clear();
+
+            foreach (DataGridViewRow row in dataGridView.Rows)
+            {
+                var item = new Entry();
+
+                item.Title = row.Cells["Title"].Value.ToString();
+                item.Username = row.Cells["Username"].Value.ToString();
+                item.Password = row.Cells["Password"].Value.ToString();
+                item.Url = row.Cells["Url"].Value.ToString();
+                item.Notes = row.Cells["Notes"].Value.ToString();
+
+                _data.Items.Add(item);
+            }
+
+            _repo.Save(_data);
+        }
+
+        private void toolStripButtonOpen_Click(object sender, EventArgs e)
+        {
+            var fileDialog = new OpenFileDialog();
+
+            fileDialog.Filter = "password database (*.mpd)|*.mpd|All Files (*.*)|*.*";
+            fileDialog.DefaultExt = "*.mpd";
+            fileDialog.FilterIndex = 1;
+            fileDialog.RestoreDirectory = true;
+
+            if (fileDialog.ShowDialog() == DialogResult.OK)
+            {
+                var _filename = fileDialog.FileName;
+                _repo = new PasswordDatabaseRepository(_filename);
+                _data = _repo.Read();
+
+                var loginDialog = new OpenDatabaseForm(_data);
+                if (loginDialog.ShowDialog() == DialogResult.OK)
+                {
+                    Globals.CurrentPasswordDb = _filename;
+
+                    LoadData();
+                }
+            }
         }
     }
 }
