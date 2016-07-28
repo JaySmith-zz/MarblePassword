@@ -96,7 +96,7 @@ namespace MarblePassword.Win
             {
                 var item = new Entry();
 
-                item.Title = row.Cells["Title"].Value.ToString();
+                item.Title = row.Cells["titleDataGridViewTextBoxTitle"].Value.ToString();
                 item.Username = row.Cells["Username"].Value.ToString();
                 item.Password = row.Cells["Password"].Value.ToString();
                 item.Url = row.Cells["Url"].Value.ToString();

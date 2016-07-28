@@ -62,7 +62,7 @@ namespace MarblePassword.Win
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.dataGridView = new System.Windows.Forms.DataGridView();
             this.dataGridEntryBindingSource = new System.Windows.Forms.BindingSource(this.components);
-            this.titleDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.titleDataGridViewTextBoxTitle = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.usernameDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.passwordDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.urlDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -247,7 +247,7 @@ namespace MarblePassword.Win
             // 
             this.dataGridView.AutoGenerateColumns = false;
             this.dataGridView.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.titleDataGridViewTextBoxColumn,
+            this.titleDataGridViewTextBoxTitle,
             this.usernameDataGridViewTextBoxColumn,
             this.passwordDataGridViewTextBoxColumn,
             this.urlDataGridViewTextBoxColumn,
@@ -266,11 +266,11 @@ namespace MarblePassword.Win
             // 
             this.dataGridEntryBindingSource.DataSource = typeof(MarblePassword.Win.DataGridEntry);
             // 
-            // titleDataGridViewTextBoxColumn
+            // titleDataGridViewTextBoxTitle
             // 
-            this.titleDataGridViewTextBoxColumn.DataPropertyName = "Title";
-            this.titleDataGridViewTextBoxColumn.HeaderText = "Title";
-            this.titleDataGridViewTextBoxColumn.Name = "titleDataGridViewTextBoxColumn";
+            this.titleDataGridViewTextBoxTitle.DataPropertyName = "Title";
+            this.titleDataGridViewTextBoxTitle.HeaderText = "Title";
+            this.titleDataGridViewTextBoxTitle.Name = "titleDataGridViewTextBoxTitle";
             // 
             // usernameDataGridViewTextBoxColumn
             // 
@@ -344,7 +344,7 @@ namespace MarblePassword.Win
         private System.Windows.Forms.DataGridView dataGridView;
         private System.Windows.Forms.BindingSource dataGridEntryBindingSource;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
-        private System.Windows.Forms.DataGridViewTextBoxColumn titleDataGridViewTextBoxColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn titleDataGridViewTextBoxTitle;
         private System.Windows.Forms.DataGridViewTextBoxColumn usernameDataGridViewTextBoxColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn passwordDataGridViewTextBoxColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn urlDataGridViewTextBoxColumn;
