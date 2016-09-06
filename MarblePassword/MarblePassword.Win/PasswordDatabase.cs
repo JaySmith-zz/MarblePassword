@@ -5,10 +5,20 @@ namespace MarblePassword.Win
 {
     public class PasswordDatabase
     {
+       
+
         public PasswordDatabase()
         {
             Items = new List<Entry>();
             Created = DateTime.Now;
+        }
+
+        private int ItemCount
+        {
+            get
+            {
+                return Items.Count;
+            }
         }
 
         public string Password { get; set; }
@@ -20,5 +30,6 @@ namespace MarblePassword.Win
         public DateTime Created { get; set; }
 
         public DateTime Modified { get; set; }
+
     }
 }

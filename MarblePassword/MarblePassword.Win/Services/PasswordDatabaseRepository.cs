@@ -13,15 +13,11 @@ namespace MarblePassword.Win.Services
         {
             _filename = filename;
 
-            if (File.Exists(filename))
-            {
+            //if (File.Exists(filename))
+            //{
                 _dataService = new FileDataRepository(filename);
-            }
-            else
-            {
-                var message = string.Format("Database ({0}) not found!", filename);
-                throw new ApplicationException(message);
-            }
+            //}
+
         }
 
         public PasswordDatabase Read()
